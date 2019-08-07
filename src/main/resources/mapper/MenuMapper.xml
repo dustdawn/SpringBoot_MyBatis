@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.gnjf.dao.mapper.MenuMapper">
+
+    <resultMap id="menuResultMap" type="Menu">
+        <id property="id" column="menu.id"/>
+        <result property="name" column="menu.name"/>
+        <result property="parentId" column="menu.parentId"/>
+        <result property="parentIds" column="menu.parentIds"/>
+        <result property="delFlag" column="menu.delFlag"/>
+
+        <association property="role" javaType="Role">
+            <id property="id" column="role.id"/>
+            <result property="name" column="role.name"/>
+            <result property="delFlag" column="role.delFlag"/>
+        </association>
+    </resultMap>
+
+    <sql id="menuColumns">
+       m.id as "menu.id",
+       m.name as "menu.name",
+       m.parent_id as "menu.parentId",
+       m.parent_ids as "menu.parentIds",
+       m.del_flag as "menu.delFlag",
+       r.id as "role.id",
+       r.name as "role.name",
+       r.del_flag as "role.delFlag"
+    </sql>
+
+    <insert id="insert" parameterType="menu">
+        insert into sys_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="parentIds != null">
+                parent_ids,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="role != null and role.id != null and role.id != ''">
+                role_id,
+            </if>
+            del_flag
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id},
+            <if test="parentId != null">
+                #{parentId},
+            </if>
+            <if test="parentIds != null">
+                #{parentIds},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="role != null and role.id != null and role.id != ''">
+                #{role.id},
+            </if>
+            #{delFlag}
+        </trim>
+    </insert>
+
+    <delete id="deleteById" parameterType="String">
+        update sys_menu
+        set del_flag = '1'
+        where id = #{id}
+    </delete>
+
+    <update id="updateById" parameterType="Menu">
+        update sys_menu
+        <set>
+            <if test="parentId != null">
+                parent_id = #{parentId},
+            </if>
+            <if test="parentIds != null">
+                parent_ids = #{parentIds},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+            <if test="role != null and role.id != null and role.id != ''">
+                role_id = #{role.id}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="get" parameterType="String" resultMap="menuResultMap">
+        select
+        <include refid="menuColumns"/>
+        from sys_menu m
+        left join sys_role r on r.id = m.role_id
+        where m.id = #{id}
+    </select>
+
+    <select id="findAllList" resultMap="menuResultMap">
+        select
+        <include refid="menuColumns"/>
+        from sys_menu m
+        left join sys_role r on r.id = m.role_id and r.del_flag = '0'
+        where m.del_flag = '0'
+    </select>
+
+    <select id="findList" resultMap="menuResultMap">
+        select
+        <include refid="menuColumns"/>
+        from sys_menu m
+        left join sys_role r on r.id = m.role_id and r.del_flag = '0'
+        <where>
+            <if test="id != null and id != ''">
+                m.id = #{id}
+            </if>
+            <if test="parentId != null and parentId != ''">
+                and m.parent_id = #{parentId}
+            </if>
+            <if test="parentIds != null and parentIds != ''">
+                and m.parent_ids = #{parentIds}
+            </if>
+            <if test="name != null and name != ''">
+                and m.name = #{name}
+            </if>
+            <if test="delFlag != null and delFlag != ''">
+                and m.del_flag = #{delFlag}
+            </if>
+            <if test="role != null and role.id != null and role.id != ''">
+                and m.role_id = #{role.id}
+            </if>
+        </where>
+    </select>
+</mapper>

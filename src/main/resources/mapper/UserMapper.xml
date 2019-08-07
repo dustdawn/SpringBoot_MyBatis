@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.gnjf.dao.mapper.UserMapper">
+
+
+
+    <resultMap id="userResultMap" type="User">
+        <id property="id" column="user.id"/>
+        <result property="name" column="user.name"/>
+        <result property="loginName" column="user.loginName"/>
+        <result property="password" column="user.password"/>
+        <result property="mobile" column="user.mobile"/>
+        <result property="delFlag" column="user.delFlag"/>
+
+        <association property="role" javaType="Role">
+            <id property="id" column="role.id"/>
+            <result property="name" column="role.name"/>
+            <result property="delFlag" column="role.delFlag"/>
+        </association>
+    </resultMap>
+
+    <sql id="userColumns">
+       u.id as "user.id",
+       u.name as "user.name",
+       u.login_name as "user.loginName",
+       u.password as "user.password",
+       u.mobile as "user.mobile",
+       u.del_flag as "user.delFlag",
+       r.id as "role.id",
+       r.name as "role.name",
+       r.del_flag as "role.delFlag"
+    </sql>
+
+
+    <insert id="insert" parameterType="User" >
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            <if test="name != null">
+                name,
+            </if>
+            <if test="loginName != null">
+                login_name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="role != null and role.id != null and role.id != ''">
+                role_id,
+            </if>
+            del_flag,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id,jdbcType=VARCHAR},
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="loginName != null">
+                #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="role != null and role.id != null and role.id != ''">
+                #{role.id,jdbcType=VARCHAR},
+            </if>
+            #{delFlag,jdbcType=VARCHAR}
+        </trim>
+
+    </insert>
+
+    <update id="updateById" parameterType="User">
+        update sys_user
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="loginName != null">
+                login_name = #{loginName},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+            <if test="role != null and role.id != null and role.id != ''">
+                role_id = #{role.id}
+            </if>
+        </set>
+
+        where id = #{id}
+    </update>
+
+
+    <delete id="deleteById" parameterType="String" >
+		update sys_user
+		set del_flag = '1'
+		where id = #{id}
+	</delete>
+
+    <!--获取所有未删除的user对象集合-->
+    <select id="findAllList" resultMap="userResultMap">
+        select
+        <include refid="userColumns"/>
+        from sys_user u
+        left join sys_role r on r.id = u.role_id and r.del_flag='0'
+        where u.del_flag = '0'
+    </select>
+
+    <!--获取user对象-->
+    <select id="get" parameterType="String" resultMap="userResultMap">
+        select
+        <include refid="userColumns"/>
+        from sys_user u
+        left join sys_role r on r.id = u.role_id
+        where u.id = #{id}
+    </select>
+
+    <!--条件查询user对象-->
+    <select id="findList" parameterType="User" resultMap="userResultMap">
+        select
+        <include refid="userColumns"/>
+        from sys_user u
+        left join sys_role r on r.id = u.role_id and r.del_flag='0'
+        <where>
+            <if test="id != null and id !=''">
+                u.id = #{id}
+            </if>
+            <if test="name != null and name !=''">
+                and u.name = #{u.name}
+            </if>
+            <if test="loginName != null and loginName !=''">
+                and u.login_name = #{loginName}
+            </if>
+            <if test="password != null and password !=''">
+                and u.password = #{password}
+            </if>
+            <if test="mobile != null and mobile !=''">
+                and u.mobile = #{mobile}
+            </if>
+            <if test="delFlag != null and delFlag !=''">
+                and u.del_flag = #{delFlag}
+            </if>
+            <if test="role != null and role.id != null and role.id !=''">
+                and u.role_id = #{role.id}
+            </if>
+        </where>
+    </select>
+
+
+
+</mapper>

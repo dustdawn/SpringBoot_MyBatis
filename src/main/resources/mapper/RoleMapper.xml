@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.gnjf.dao.mapper.RoleMapper">
+
+    <resultMap id="roleResultMap" type="Role">
+        <id property="id" column="role.id" />
+        <result property="name" column="role.name"/>
+        <result property="delFlag" column="role.delFlag"/>
+
+        <collection property="userList" ofType="User"  javaType="java.util.ArrayList">
+            <id property="id" column="user.id"/>
+            <result property="name" column="user.name"/>
+            <result property="loginName" column="user.loginName"/>
+            <result property="password" column="user.password"/>
+            <result property="mobile" column="user.mobile"/>
+            <result property="delFlag" column="user.delFlag"/>
+        </collection>
+
+        <collection property="menuList" ofType="Menu"  javaType="java.util.ArrayList">
+            <id property="id" column="menu.id"/>
+            <result property="parentId" column="menu.parentId"/>
+            <result property="parentIds" column="menu.parentIds"/>
+            <result property="name" column="menu.name"/>
+            <result property="delFlag" column="menu.delFlag"/>
+        </collection>
+    </resultMap>
+
+    <sql id="roleColumns">
+       r.id as "role.id",
+       r.name as "role.name",
+       r.del_flag as "role.delFlag",
+       u.id as "user.id",
+       u.name as "user.name",
+       u.login_name as "user.loginName",
+       u.password as "user.password",
+       u.mobile as "user.mobile",
+       u.del_flag as "user.delFlag",
+       m.id as "menu.id",
+       m.parent_id as "menu.parentId",
+       m.parent_ids as "menu.parentIds",
+       m.name as "menu.name",
+       m.del_flag as "menu.delFlag"
+    </sql>
+
+    <insert id="insert" parameterType="Role">
+        insert into sys_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            <if test="name != null">
+                name,
+            </if>
+            del_flag
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id},
+            <if test="name != null">
+                #{name},
+            </if>
+            #{delFlag}
+        </trim>
+
+    </insert>
+
+    <update id="deleteById" parameterType="String">
+        update sys_role
+        set del_flag = '1'
+        where id = #{id}
+    </update>
+
+    <update id="updateById" parameterType="Role">
+        update sys_role
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <!--获取角色对象-->
+    <select id="get" parameterType="String" resultMap="roleResultMap">
+        select
+        <include refid="roleColumns"/>
+        from sys_role r
+        left join sys_user u on u.role_id = r.id
+        left join sys_menu m on m.role_id = r.id
+        where r.id = #{id}
+
+    </select>
+    <!--获取所有未删除角色集合-->
+    <select id="findAllList" resultMap="roleResultMap">
+        select
+        <include refid="roleColumns"/>
+        from sys_role r
+        left join sys_user u on u.role_id = r.id and u.del_flag = '0'
+        left join sys_menu m on m.role_id = r.id and m.del_flag = '0'
+        where r.del_flag = '0'
+    </select>
+    <!--条件查询-->
+    <select id="findList" parameterType="Role" resultMap="roleResultMap">
+        select
+        <include refid="roleColumns"/>
+        from sys_role r
+        left join sys_user u on u.role_id = r.id and u.del_flag = '0'
+        left join sys_menu m on m.role_id = r.id and m.del_flag = '0'
+        <where>
+            <if test="id != null and id != ''">
+                r.id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and r.name = #{name}
+            </if>
+            <if test="delFlag != null and delFlag != ''">
+                and r.del_flag = #{delFlag}
+            </if>
+        </where>
+    </select>
+
+
+
+</mapper>
