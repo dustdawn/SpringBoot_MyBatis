@@ -8,9 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>404</title>
+    <title>未找到404</title>
 </head>
 <body>
-
+    <h1 style="color: red">服务器找不到请求的网页。</h1>
 </body>
 </html>

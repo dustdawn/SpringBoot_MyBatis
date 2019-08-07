@@ -8,9 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>500</title>
+    <title>服务器内部错误505</title>
 </head>
 <body>
-
+    <h1 style="color: red">服务器遇到错误，无法完成请求。</h1>
 </body>
 </html>
