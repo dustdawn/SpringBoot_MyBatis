@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,11 +36,13 @@ public class UserController {
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
     @ResponseBody
-    public JSON Login(@RequestBody String reqData) {
-        //return reqData.toString();
-        JSONObject json = new JSONObject(reqData);
+    public String Login(/*@RequestBody User user, */HttpServletRequest request ) {
+        /*JSONObject json = new JSONObject(reqData);
         String login_name = (String) json.get("login_name");
-        String password = (String) json.get("password");
+        String password = (String) json.get("password");*/
+        String login_name = request.getParameter("login_name");
+        String password = request.getParameter("password");
+
         User user = new User();
         user.setId(null);
         user.setLoginName(login_name);
@@ -66,9 +69,20 @@ public class UserController {
         res.put("code",code);
         res.put("msg",msg);
         res.put("data",data);
-        return res;
+        return res.toString();
 
     }
+
+    @RequestMapping("/index")
+    public String index(){
+        return "index";
+    }
+    @RequestMapping(value = "in")
+    @ResponseBody
+    public String in(){
+        return "index";
+    }
+
 
 
 
