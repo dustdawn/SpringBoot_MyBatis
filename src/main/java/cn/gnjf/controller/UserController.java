@@ -60,7 +60,7 @@ public class UserController {
                 msg = "密码错误";
             }
         }else {
-            msg = "账号错误";
+            msg = "账号不存在";
         }
 
         res.put("code",code);
