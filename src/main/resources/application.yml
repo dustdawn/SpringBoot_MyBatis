@@ -7,14 +7,16 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.1.197:3309/ismps_lb?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://127.0.0.1:3306/springboot_mybatis?useUnicode=true&characterEncoding=utf8
     username: root
-    password: gnjf123456
+    password: 123
     type: com.alibaba.druid.pool.DruidDataSource
   mvc:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
+
+
   #resources:
     #static-locations: classpath:/webapp/WEB-INF/views
 
