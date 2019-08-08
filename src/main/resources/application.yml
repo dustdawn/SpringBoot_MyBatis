@@ -1,7 +1,10 @@
 server:
   port: 8088
   servlet:
-    context-path: /ismps
+    context-path:
+  tomcat:
+    uri-encoding: utf-8
+
 
 #spring数据库连接配置,jsp配置
 spring:
@@ -17,8 +20,17 @@ spring:
       suffix: .jsp
 
 
+
+
   #resources:
     #static-locations: classpath:/webapp/WEB-INF/views
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  messages:
+    encoding: UTF-8
 
 
 

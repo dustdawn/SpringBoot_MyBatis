@@ -6,14 +6,15 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <title>登录</title>
 </head>
 <body>
 登录页面
-<h3>登录</h3>
-<h3  style="color: red"></h3>
+<h6><a href="/user/to">${name}</a></h6>
+<h3  style="color: red">登录</h3>
 <form method="post" action="${pageContext.request.contextPath}/user/toIndex">
     用户名：<input type="text" name="login_name" /><br/>
     密码：<input type="password" name="password" /><br/>

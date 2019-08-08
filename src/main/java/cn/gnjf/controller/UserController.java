@@ -2,19 +2,16 @@ package cn.gnjf.controller;
 
 import cn.gnjf.dao.entity.User;
 import cn.gnjf.service.UserService;
-import cn.hutool.json.JSON;
 import cn.hutool.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 用户Controller层
@@ -74,8 +71,16 @@ public class UserController {
     }
 
     @RequestMapping("/login")
-    public String login(){
+    public String login(Model model){
+        model.addAttribute("name","here");
         return "/jsp/login";
+    }
+
+    @RequestMapping("/to")
+    @ResponseBody
+    public String to(){
+
+        return "success";
     }
 
 
