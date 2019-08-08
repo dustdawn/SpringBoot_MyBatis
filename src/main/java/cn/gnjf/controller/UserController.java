@@ -73,7 +73,7 @@ public class UserController {
     @RequestMapping("/login")
     public String login(Model model){
         model.addAttribute("name","here");
-        return "/jsp/login";
+        return "jsp/login";
     }
 
     @RequestMapping("/to")
@@ -81,6 +81,11 @@ public class UserController {
     public String to(){
 
         return "success";
+    }
+
+    @RequestMapping("/list")
+    public String list(){
+        return "templates/hello";
     }
 
 

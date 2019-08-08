@@ -14,10 +14,10 @@ spring:
     username: root
     password: 123
     type: com.alibaba.druid.pool.DruidDataSource
-  mvc:
-    view:
-      prefix: /WEB-INF/views/
-      suffix: .jsp
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/views/
+#      suffix: .jsp
 
 
 
@@ -31,6 +31,9 @@ spring:
       force: true
   messages:
     encoding: UTF-8
+#  thymeleaf:
+#    prefix: /WEB-INF/views/
+#    suffix: .html
 
 
 
