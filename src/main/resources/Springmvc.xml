@@ -30,7 +30,7 @@
     <!-- 3.配置视图解析器 -->
     <!--<bean	class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         &lt;!&ndash; 前缀 &ndash;&gt;
-        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="prefix" value="/WEB-INF/views/" />
         &lt;!&ndash; 后缀 &ndash;&gt;
         <property name="suffix" value=".jsp" />
     </bean>-->

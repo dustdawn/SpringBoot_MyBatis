@@ -14,7 +14,7 @@
 登录页面
 <h3>登录</h3>
 <h3  style="color: red"></h3>
-<form method="post" action="${pageContext.request.contextPath}/user/login">
+<form method="post" action="${pageContext.request.contextPath}/user/toIndex">
     用户名：<input type="text" name="login_name" /><br/>
     密码：<input type="password" name="password" /><br/>
     <input type="submit" value="登录"/>

@@ -36,7 +36,7 @@ public class UserController {
 
     @RequestMapping(value = "toIndex", method = RequestMethod.POST)
     @ResponseBody
-    public String Login(/*@RequestBody User user, */HttpServletRequest request ) {
+    public String toIndex(/*@RequestBody User user, */HttpServletRequest request ) {
         /*JSONObject json = new JSONObject(reqData);
         String login_name = (String) json.get("login_name");
         String password = (String) json.get("password");*/
@@ -74,8 +74,8 @@ public class UserController {
     }
 
     @RequestMapping("/login")
-    public String index(){
-        return "login";
+    public String login(){
+        return "/jsp/login";
     }
 
 
