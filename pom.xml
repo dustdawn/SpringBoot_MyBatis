@@ -7,6 +7,8 @@
     <groupId>cn.gnjf</groupId>
     <artifactId>ismps</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <!--打包方式-->
+    <packaging>war</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -63,11 +65,11 @@
 
 
         <!-- 添加servlet依赖模块 -->
-        <dependency>
+        <!--<dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
 
         <!--jsp标签库依赖包,与上包有冲突，去除-->
         <!--<dependency>
@@ -76,11 +78,11 @@
             <version>2.1</version>
             <scope>provided</scope>
         </dependency>-->
-        <dependency>
+        <!--<dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
-        </dependency>
+        </dependency>-->
 
 
 
@@ -94,16 +96,17 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
+            <scope>provided</scope>
             <version>7.0.59</version>
             <!--<scope>provided</scope> 注意，这个scope需要被注释掉-->
         </dependency>
 
         <!--@RequestBody注解做提交json字符串自动绑定到pojo入参时，类型需要是"application/json;charset=UTF-8"，否则会抛"not supported"异常-->
-        <dependency>
+        <!--<dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.8.8.1</version>
-        </dependency>
+        </dependency>-->
 
 
 
@@ -112,11 +115,18 @@
     <!--打包插件-->
     <build>
         <plugins>
+
+            <!--不加maven打包后提示没有主清单属性-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!--<plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <!-- 工程主入口-->
+                    &lt;!&ndash; 工程主入口&ndash;&gt;
                     <mainClass>cn.gnjf.MyApplication</mainClass>
                 </configuration>
                 <executions>
@@ -126,30 +136,70 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
 
             <!--maven打包-->
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <skipTests>true</skipTests>
                 </configuration>
-            </plugin>
+            </plugin>-->
 
-            <!--web项目文件打包引入-->
+            <!--打war包插件配置-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                    <!--指定web.xml文件的位置-->
-                    <webXml>WebContent\WEB-INF\web.xml</webXml>
-                    <!--指定jsp等文件所在位置-->
-                    <warSourceDirectory>WebContent</warSourceDirectory>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
+
+            <!--web项目文件打包引入-->
+            <!--<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    &lt;!&ndash;指定web.xml文件的位置&ndash;&gt;
+                    <webXml>WebContent\WEB-INF\web.xml</webXml>
+                    &lt;!&ndash;指定jsp等文件所在位置&ndash;&gt;
+                    <warSourceDirectory>WebContent</warSourceDirectory>
+                </configuration>
+            </plugin>-->
         </plugins>
+
+        <resources>
+            <!-- 打包时将jsp文件拷贝到META-INF目录下-->
+            <resource>
+                <!-- 指定resources插件处理哪个目录下的资源文件 -->
+                <directory>src/main/webapp</directory>
+                <!--注意此次必须要放在此目录下才能被访问到-->
+                <targetPath>META-INF/resources</targetPath>
+                <includes>
+                    <include>**/**</include>
+                </includes>
+            </resource>
+
+            <!-- mapper.xml文件在java目录下 -->
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+
+            <!--将resource下所有文件加载进来，为了防止配置文件不被编译-->
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/**</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
 
 
 

@@ -15,8 +15,8 @@ spring:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
-  resources:
-    static-locations: classpath:/webapp/WEB-INF/views
+  #resources:
+    #static-locations: classpath:/webapp/WEB-INF/views
 
 
 
