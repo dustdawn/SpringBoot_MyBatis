@@ -34,7 +34,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "login", method = RequestMethod.POST)
+    @RequestMapping(value = "toIndex", method = RequestMethod.POST)
     @ResponseBody
     public String Login(/*@RequestBody User user, */HttpServletRequest request ) {
         /*JSONObject json = new JSONObject(reqData);
@@ -73,14 +73,9 @@ public class UserController {
 
     }
 
-    @RequestMapping("/index")
+    @RequestMapping("/login")
     public String index(){
-        return "index";
-    }
-    @RequestMapping(value = "in")
-    @ResponseBody
-    public String in(){
-        return "index";
+        return "login";
     }
 
 
