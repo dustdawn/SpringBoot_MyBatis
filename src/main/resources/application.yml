@@ -52,3 +52,34 @@ mybatis:
 
 
 
+
+#默认的文件名是：spring.log
+#logging.path=./logs/mylog.log  path和file只设置一个即可,如若同时使用，则只有logging.file生效
+#日志级别总共有TARCE < DEBUG < INFO < WARN < ERROR < FATAL ，
+#且级别是逐渐提供，如果日志级别设置为INFO，则意味TRACE和DEBUG级别的日志都看不到
+logging:
+  file: springboot.log
+  level:
+    root: info
+    cn.gnjf: debug
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger- %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger- %msg%n"
+
+
+
+#%d{HH:mm:ss.SSS}——日志输出时间
+#
+#%thread——输出日志的进程名字，这在Web应用以及异步任务处理中很有用
+#
+#%-5level——日志级别，并且使用5个字符靠左对齐
+#
+#%logger- ——日志输出者的名字
+#
+#%msg——日志消息
+#
+#%n——平台的换行符
+
+
+
+
